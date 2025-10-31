@@ -63,6 +63,7 @@ from alpaca.trading.requests import (
 )
 
 from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 from starlette.requests import Request
@@ -277,7 +278,7 @@ def _month_name_to_number(name: str) -> int:
 # Account Information Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_account_info() -> str:
     """
     Retrieves and formats the current account information including balances and status.
@@ -314,7 +315,7 @@ async def get_account_info() -> str:
             """
     return info
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_positions() -> str:
     """
     Retrieves and formats all current positions in the portfolio.
@@ -346,7 +347,7 @@ async def get_positions() -> str:
                     """
     return result
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_open_position(symbol: str) -> str:
     """
     Retrieves and formats details for a specific open position.
@@ -382,7 +383,7 @@ async def get_open_position(symbol: str) -> str:
 # Stock Market Data Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_quote(symbol: str) -> str:
     """
     Retrieves and formats the latest quote for a stock.
@@ -418,7 +419,7 @@ async def get_stock_quote(symbol: str) -> str:
     except Exception as e:
         return f"Error fetching quote for {symbol}: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_bars(
     symbol: str, 
     days: int = 5, 
@@ -515,7 +516,7 @@ async def get_stock_bars(
     except Exception as e:
         return f"Error fetching historical data for {symbol}: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_trades(
     symbol: str,
     days: int = 5,
@@ -579,7 +580,7 @@ async def get_stock_trades(
     except Exception as e:
         return f"Error fetching trades: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_latest_trade(
     symbol: str,
     feed: Optional[DataFeed] = None,
@@ -623,7 +624,7 @@ async def get_stock_latest_trade(
     except Exception as e:
         return f"Error fetching latest trade: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_latest_bar(
     symbol: str,
     feed: Optional[DataFeed] = None,
@@ -717,7 +718,7 @@ def _format_trade_data(trade) -> str:
 
 """
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_stock_snapshot(
     symbol_or_symbols: Union[str, List[str]], 
     feed: Optional[DataFeed] = None,
@@ -798,7 +799,7 @@ async def get_stock_snapshot(
 # CryptoMarket Data Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_crypto_bars(
     symbol: Union[str, List[str]], 
     days: int = 1, 
@@ -905,7 +906,7 @@ async def get_crypto_bars(
     except Exception as e:
         return f"Error fetching historical crypto data for {symbol}: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_crypto_quotes(
     symbol: Union[str, List[str]],
     days: int = 3,
@@ -980,7 +981,7 @@ async def get_crypto_quotes(
 # Order Management Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_orders(
     status: str = "all", 
     limit: int = 10,
@@ -1649,7 +1650,7 @@ async def exercise_options_position(symbol_or_contract_id: str) -> str:
 # Asset Information Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_asset_info(symbol: str) -> str:
     """
     Retrieves and formats detailed information about a specific asset.
@@ -1683,7 +1684,7 @@ async def get_asset_info(symbol: str) -> str:
     except Exception as e:
         return f"Error fetching asset information: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_all_assets(
     status: Optional[str] = None,
     asset_class: Optional[str] = None,
@@ -1757,7 +1758,7 @@ async def create_watchlist(name: str, symbols: List[str]) -> str:
     except Exception as e:
         return f"Error creating watchlist: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_watchlists() -> str:
     """Get all watchlists for the account."""
     try:
@@ -1788,7 +1789,7 @@ async def update_watchlist(watchlist_id: str, name: str = None, symbols: List[st
 # Market Information Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_market_clock() -> str:
     """
     Retrieves and formats current market status and next open/close times.
@@ -1813,7 +1814,7 @@ async def get_market_clock() -> str:
     except Exception as e:
         return f"Error fetching market clock: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_market_calendar(start_date: str, end_date: str) -> str:
     """
     Retrieves and formats market calendar for specified date range.
@@ -1845,7 +1846,7 @@ async def get_market_calendar(start_date: str, end_date: str) -> str:
 # Corporate Actions Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_corporate_announcements(
     ca_types: Optional[List[CorporateActionsType]] = None,
     start: Optional[date] = None,
@@ -2067,7 +2068,7 @@ def _parse_expiration_expression(expression: str) -> Dict[str, Any]:
 # Options Trading Tools
 # ============================================================================
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_option_contracts(
     underlying_symbol: str,
     expiration_date: Optional[date] = None,
@@ -2167,7 +2168,7 @@ async def get_option_contracts(
     except Exception as e:
         return f"Error: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_option_latest_quote(
     symbol: str,
     feed: Optional[OptionsFeed] = None
@@ -2226,7 +2227,7 @@ async def get_option_latest_quote(
         return f"Error fetching option quote: {str(e)}"
 
 
-@mcp.tool()
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_option_snapshot(symbol_or_symbols: Union[str, List[str]], feed: Optional[OptionsFeed] = None) -> str:
     """
     Retrieves comprehensive snapshots of option contracts including latest trade, quote, implied volatility, and Greeks.
