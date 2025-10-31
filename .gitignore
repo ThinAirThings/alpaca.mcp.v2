@@ -3,6 +3,7 @@
 .env.local
 *.secret
 secret.py
+.mcp.json
 
 # Python
 __pycache__/
