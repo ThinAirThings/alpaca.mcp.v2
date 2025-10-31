@@ -1,0 +1,2 @@
+mcp[cli]>=1.15.0
+polygon-api-client>=1.15.4
